@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elpida | Apoiadores</title>
+  <link rel="icon" type="image/png" href="../imagem/logo-vetor.png">
+
+  <link rel="stylesheet" href="../css/apoiadores.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+
+    <a class="brand" href="../html/Pagina incial.html">
+      <div class="brand-mark">
+        <img src="../imagem/logo-vetor.jpeg" alt="Logo">
+      </div>
+
+      <div class="brand-text">
+        <strong>ELPIDA</strong>
+        <span>Proteção & Acolhimento</span>
+      </div>
+    </a>
+
+    <nav class="nav">
+      <a href="../html/Pagina incial.html">Início</a>
+      <a href="../html/sobre.html">Sobre</a>
+      <a class="active" href="../html/apoiadores.html">Apoiadores</a>
+      <a href="../html/contato.html">Contato</a>
+      <a href="../html/login.html">Login</a>
+      <a href="../html/cadastro.html">Criar conta</a>
+    </nav>
+
+  </div>
+</header>
+
+<main>
+
+  <section class="section">
+
+    <div class="section-head">
+      <div>
+        <h2>Nossos Apoiadores</h2>
+
+        <p class="lead">
+          Pessoas que contribuíram para o desenvolvimento do projeto Elpida.
+        </p>
+      </div>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <div class="card form-card">
+
+      <span class="pill">Adiministrção dos apoiadores</span>
+
+      <div class="field">
+        <label>Nome do apoiador</label>
+        <input type="text" id="nome">
+      </div>
+
+      <div class="field">
+        <label>Cargo</label>
+        <input type="text" id="cargo">
+      </div>
+
+      <div class="field">
+        <label>Descrição</label>
+        <textarea id="descricao"></textarea>
+      </div>
+
+      <button class="btn" onclick="salvarApoiador()">
+        Salvar
+      </button>
+
+    </div>
+
+    <!-- LISTA -->
+    <div class="grid" id="lista-apoiadores"></div>
+
+  </section>
+
+</main>
+
+<footer class="footer">
+  © 2026 Elpida — Projeto acadêmico de apoio e conscientização.
+</footer>
+
+<script>
+
+  // ARRAY COM EXEMPLOS
+  let apoiadores = [
+    {
+      nome: "Maria Helena",
+      cargo: "Professora da ETEC",
+      descricao: "Orientou e auxiliou toda a equipe durante o desenvolvimento do TCC."
+    },
+
+    {
+      nome: "Carlos Eduardo",
+      cargo: "Psicólogo voluntário",
+      descricao: "Contribuiu com ideias sobre acolhimento emocional e apoio psicológico."
+    },
+
+    {
+      nome: "Ana Beatriz",
+      cargo: "Desenvolvedora Front-end",
+      descricao: "Auxiliou na criação da interface e identidade visual do projeto."
+    }
+  ];
+
+  let editando = -1;
+
+  function renderizarApoiadores() {
+
+    const lista = document.getElementById("lista-apoiadores");
+
+    lista.innerHTML = "";
+
+    apoiadores.forEach((apoiador, index) => {
+
+      lista.innerHTML += `
+      
+        <div class="card">
+
+          <span class="pill">${apoiador.cargo}</span>
+
+          <h3>${apoiador.nome}</h3>
+
+          <p>${apoiador.descricao}</p>
+
+          <div class="acoes">
+
+            <button class="editar"
+              onclick="editarApoiador(${index})">
+              Editar
+            </button>
+
+            <button class="excluir"
+              onclick="excluirApoiador(${index})">
+              Excluir
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+    });
+
+  }
+
+  function salvarApoiador() {
+
+    const nome = document.getElementById("nome").value;
+    const cargo = document.getElementById("cargo").value;
+    const descricao = document.getElementById("descricao").value;
+
+    if(nome === "" || cargo === "" || descricao === "") {
+      alert("Preencha todos os campos.");
+      return;
+    }
+
+    const novoApoiador = {
+      nome,
+      cargo,
+      descricao
+    };
+
+    // CREATE OU UPDATE
+    if(editando === -1) {
+
+      apoiadores.push(novoApoiador);
+
+    } else {
+
+      apoiadores[editando] = novoApoiador;
+      editando = -1;
+
+    }
+
+    limparCampos();
+    renderizarApoiadores();
+
+  }
+
+  function editarApoiador(index) {
+
+    document.getElementById("nome").value =
+      apoiadores[index].nome;
+
+    document.getElementById("cargo").value =
+      apoiadores[index].cargo;
+
+    document.getElementById("descricao").value =
+      apoiadores[index].descricao;
+
+    editando = index;
+
+  }
+
+  function excluirApoiador(index) {
+
+    const confirmar = confirm(
+      "Deseja excluir este apoiador?"
+    );
+
+    if(confirmar) {
+
+      apoiadores.splice(index, 1);
+
+      renderizarApoiadores();
+
+    }
+
+  }
+
+  function limparCampos() {
+
+    document.getElementById("nome").value = "";
+    document.getElementById("cargo").value = "";
+    document.getElementById("descricao").value = "";
+
+  }
+
+  renderizarApoiadores();
+
+</script>
+
+</body>
+</html>

@@ -244,7 +244,7 @@ main {
 .form-note {
   margin-top: 14px;
   text-align: center;
-  color: #E1DFD4;
+  color: var(--muted);
   font-size: .92rem;
   line-height: 1.6;
 }
